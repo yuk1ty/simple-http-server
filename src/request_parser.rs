@@ -20,7 +20,9 @@ impl RequestParser {
         }
 
         let parsed = &mut String::new();
-        stream.read_to_string(parsed).unwrap();
+        stream.read_to_string(parsed).expect(
+            "parsing error in stream.",
+        );
         let caps = REGEX.captures(parsed).unwrap();
 
         Request::builder()

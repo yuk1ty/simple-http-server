@@ -18,7 +18,8 @@ impl RequestHandler {
 
     // TODO ファイル名と長ったらしいコードの修正
     pub fn handle(&mut self) -> Response {
-        let content = "<html><head><title>Title</title></head><body>success</body></html>".to_string();
+        let content = "<html><head><title>Title</title></head><body>success</body></html>"
+            .to_string();
         Response::builder()
             .status(StatusCode::Ok)
             .content_type(Mime::Html)

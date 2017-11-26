@@ -118,10 +118,10 @@ impl Writer for Response {
         let res_str = into_http_response(&self);
         stream.write(res_str.as_bytes()).unwrap();
         stream.write(self.body.as_bytes()).unwrap();
-        stream.flush().expect("Response flush failed.");
+        stream.flush().unwrap();
     }
 }
 
 fn into_http_response(res: &Response) -> String {
-    format!("HTTP/1.1 {}\\r\\nServer: SimpleRustHttpServer\\r\\nContent-Type: {}\\r\\nContent-Length: {}\\r\\nConnection: Close\\r\\n\\r\\n", &res.head.status, &res.head.content_type, &res.head.content_length)
+    format!("HTTP/1.1 {}\r\nServer: SimpleRustHttpServer\r\nContent-Type: {}\r\nContent-Length: {}\r\nConnection: Close\r\n\r\n", &res.head.status, &res.head.content_type, &res.head.content_length)
 }
