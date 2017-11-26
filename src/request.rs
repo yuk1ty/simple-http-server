@@ -8,6 +8,16 @@ pub struct Parts {
     pub http_version: String,
 }
 
+impl Parts {
+    fn new() -> Self {
+        Parts {
+            method: String::new(),
+            uri: String::new(),
+            http_version: String::new(),
+        }
+    }
+}
+
 impl Request {
     pub fn builder() -> Builder {
         Builder::new()
@@ -19,7 +29,7 @@ pub struct Builder {
 }
 
 impl Builder {
-    pub fn new() -> Builder {
+    pub fn new() -> Self {
         Builder::default()
     }
 
@@ -55,7 +65,7 @@ impl Builder {
 
 impl Default for Builder {
     fn default() -> Builder {
-        Builder { head: None }
+        Builder { head: Some(Parts::new()) }
     }
 }
 

@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::BufReader;
 use std::io::prelude::*;
 
-use request::{Request, Parts};
+use request::Request;
 use response::Response;
 use status::StatusCode;
 use mime::Mime;
@@ -16,33 +16,15 @@ impl RequestHandler {
         RequestHandler { req: None }
     }
 
+    // TODO ファイル名と長ったらしいコードの修正
     pub fn handle(&mut self) -> Response {
-        match self.req.take() {
-            Some(request) => {
-                let status_code;
-                let mime;
-                let body;
-                {
-                    if request.head.uri.starts_with("public/") {
-                        status_code = StatusCode::Forbidden;
-                        mime = Mime::Html;
-                        body = read_html("forbidden.html");
-                    } else {
-                        status_code = StatusCode::Ok;
-                        mime = Mime::Html;
-                        body = read_html("ok.html");
-                    }
-                }
-                Response::builder().status(status_code).content_type(mime).body(body).build()
-            },
-            None => {
-                Response::builder()
-                    .status(StatusCode::BadRequest)
-                    .content_type(Mime::Html)
-                    .body(read_html("404.html"))
-                    .build()
-            }
-        }
+        let content = "<html><head><title>Title</title></head><body>success</body></html>".to_string();
+        Response::builder()
+            .status(StatusCode::Ok)
+            .content_type(Mime::Html)
+            .content_length((content.len() as i32).to_string())
+            .body(content)
+            .build()
     }
 }
 

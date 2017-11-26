@@ -16,8 +16,24 @@ pub struct Parts {
     pub content_length: String,
 }
 
+impl Parts {
+    fn new() -> Self {
+        Parts {
+            status: String::new(),
+            content_type: String::new(),
+            content_length: String::new(),
+        }
+    }
+}
+
 struct Body {
     content: String,
+}
+
+impl Body {
+    fn new() -> Self {
+        Body { content: String::new() }
+    }
 }
 
 pub struct Builder {
@@ -32,7 +48,7 @@ impl Response {
 }
 
 impl Builder {
-    pub fn new() -> Builder {
+    pub fn new() -> Self {
         Builder::default()
     }
 
@@ -83,8 +99,8 @@ impl Builder {
 impl Default for Builder {
     fn default() -> Builder {
         Builder {
-            head: None,
-            body: None,
+            head: Some(Parts::new()),
+            body: Some(Body::new()),
         }
     }
 }
@@ -99,10 +115,13 @@ fn mut_body<'a>(body: &'a mut Option<Body>) -> Option<&'a mut Body> {
 
 impl Writer for Response {
     fn write(&mut self, stream: &mut TcpStream) {
-        let response = r"HTTP/1.1";
-        let response_bytes = response.as_bytes();
-        stream.write(response_bytes).unwrap();
+        let res_str = into_http_response(&self);
+        stream.write(res_str.as_bytes()).unwrap();
         stream.write(self.body.as_bytes()).unwrap();
         stream.flush().expect("Response flush failed.");
     }
+}
+
+fn into_http_response(res: &Response) -> String {
+    format!("HTTP/1.1 {}\\r\\nServer: SimpleRustHttpServer\\r\\nContent-Type: {}\\r\\nContent-Length: {}\\r\\nConnection: Close\\r\\n\\r\\n", &res.head.status, &res.head.content_type, &res.head.content_length)
 }

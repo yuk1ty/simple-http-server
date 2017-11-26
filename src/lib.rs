@@ -1,3 +1,6 @@
+extern crate regex;
+#[macro_use] extern crate lazy_static;
+
 pub mod request;
 pub mod response;
 pub mod status;
