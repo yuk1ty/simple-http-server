@@ -1,0 +1,6 @@
+[package]
+name = "simple_http_server"
+version = "0.1.0"
+authors = ["Yuki <yuki.mul.tiplus@gmail.com>"]
+
+[dependencies]
