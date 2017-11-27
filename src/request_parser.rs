@@ -19,11 +19,10 @@ impl RequestParser {
             static ref REGEX: Regex = Regex::new(r"(.*) / HTTP/(.*)\r\nHost: (.*)\r\n").unwrap();
         }
 
-        let parsed = &mut String::new();
-        stream.read_to_string(parsed).expect(
-            "parsing error in stream.",
-        );
-        let caps = REGEX.captures(parsed).unwrap();
+        let mut buf = [0; 512];
+        stream.read(&mut buf).expect("parsing error in stream");
+        let result: String = String::from_utf8(buf.to_vec()).unwrap();
+        let caps = REGEX.captures(&result).unwrap();
 
         Request::builder()
             .method(caps[1].to_string())

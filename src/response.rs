@@ -116,9 +116,9 @@ fn mut_body<'a>(body: &'a mut Option<Body>) -> Option<&'a mut Body> {
 impl Writer for Response {
     fn write(&mut self, stream: &mut TcpStream) {
         let res_str = into_http_response(&self);
-        stream.write(res_str.as_bytes()).unwrap();
-        stream.write(self.body.as_bytes()).unwrap();
-        stream.flush().unwrap();
+        stream.write(res_str.as_bytes()).expect("error has been occured in header.");
+        stream.write(self.body.as_bytes()).expect("error has been occured in body");
+        stream.flush().expect("flush has been failed.");
     }
 }
 
