@@ -7,13 +7,11 @@ use response::Response;
 use status::StatusCode;
 use mime::Mime;
 
-pub struct RequestHandler {
-    req: Option<Request>,
-}
+pub struct RequestHandler;
 
 impl RequestHandler {
     pub fn new() -> Self {
-        RequestHandler { req: None }
+        RequestHandler
     }
 
     pub fn handle(&mut self, req: &Request) -> Response {

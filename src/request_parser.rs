@@ -7,11 +7,11 @@ use request::Request;
 use std::io::Read;
 use regex::Regex;
 
-pub struct RequestParser {}
+pub struct RequestParser;
 
 impl RequestParser {
     pub fn new() -> Self {
-        RequestParser {}
+        RequestParser
     }
 
     pub fn from(&mut self, stream: &mut TcpStream) -> Request {

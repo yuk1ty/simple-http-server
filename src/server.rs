@@ -1,10 +1,8 @@
 use std::net::TcpStream;
 use request_handler::RequestHandler;
 use request_parser::RequestParser;
-use response::*;
 use worker::Worker;
 use writer::Writer;
-use std::io::Write;
 
 pub struct Server {
     stream: TcpStream,
