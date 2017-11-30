@@ -15,7 +15,7 @@ impl RequestHandler {
     }
 
     pub fn handle(&mut self, req: &Request) -> Response {
-        if req.head.path.starts_with("public") {
+        if req.head.path.starts_with("static") {
             let forbidden = read_html("./src/static/assets/html/403.html");
             return Response::builder()
                 .status(StatusCode::Forbidden)
