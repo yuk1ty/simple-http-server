@@ -4,7 +4,7 @@ pub struct Request {
 
 pub struct Parts {
     pub method: String,
-    pub uri: String,
+    pub path: String,
     pub http_version: String,
 }
 
@@ -12,7 +12,7 @@ impl Parts {
     fn new() -> Self {
         Parts {
             method: String::new(),
-            uri: String::new(),
+            path: String::new(),
             http_version: String::new(),
         }
     }
@@ -40,9 +40,9 @@ impl Builder {
         self
     }
 
-    pub fn uri(&mut self, uri: String) -> &mut Builder {
+    pub fn path(&mut self, uri: String) -> &mut Builder {
         if let Some(parts) = head(&mut self.head) {
-            parts.uri = uri
+            parts.path = uri
         }
         self
     }

@@ -16,7 +16,7 @@ impl RequestParser {
 
     pub fn from(&mut self, stream: &mut TcpStream) -> Request {
         lazy_static! {
-            static ref REGEX: Regex = Regex::new(r"(.*) / HTTP/(.*)\r\nHost: (.*)\r\n").unwrap();
+            static ref REGEX: Regex = Regex::new(r"(.*) /(.*) HTTP/(.*)\r\n").unwrap();
         }
 
         let mut buf = [0; 512];
@@ -26,8 +26,8 @@ impl RequestParser {
 
         Request::builder()
             .method(caps[1].to_string())
-            .http_version(caps[2].to_string())
-            .uri(caps[3].to_string())
+            .path(caps[2].to_string())
+            .http_version(caps[3].to_string())
             .build()
     }
 }

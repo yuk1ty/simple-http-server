@@ -24,7 +24,7 @@ impl Server {
 
 impl Worker for Server {
     fn start(&mut self) {
-        &self.parser.from(&mut self.stream);
-        &self.handler.handle().write(&mut self.stream);
+        let req = &self.parser.from(&mut self.stream);
+        &self.handler.handle(req).write(&mut self.stream);
     }
 }
