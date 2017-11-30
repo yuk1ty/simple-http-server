@@ -53,28 +53,28 @@ impl Builder {
     }
 
     pub fn status(&mut self, status: StatusCode) -> &mut Builder {
-        if let Some(parts) = head(&mut self.head) {
+        if let Some(parts) = head_mut(&mut self.head) {
             parts.status = status.to_string()
         }
         self
     }
 
     pub fn content_type(&mut self, content_type: Mime) -> &mut Builder {
-        if let Some(parts) = head(&mut self.head) {
+        if let Some(parts) = head_mut(&mut self.head) {
             parts.content_type = content_type.to_string()
         }
         self
     }
 
     pub fn content_length(&mut self, content_length: String) -> &mut Builder {
-        if let Some(parts) = head(&mut self.head) {
+        if let Some(parts) = head_mut(&mut self.head) {
             parts.content_length = content_length
         }
         self
     }
 
     pub fn body(&mut self, content: String) -> &mut Builder {
-        if let Some(body) = mut_body(&mut self.body) {
+        if let Some(body) = body_mut(&mut self.body) {
             body.content = content
         }
         self
@@ -105,11 +105,11 @@ impl Default for Builder {
     }
 }
 
-fn head<'a>(head: &'a mut Option<Parts>) -> Option<&'a mut Parts> {
+fn head_mut<'a>(head: &'a mut Option<Parts>) -> Option<&'a mut Parts> {
     head.as_mut()
 }
 
-fn mut_body<'a>(body: &'a mut Option<Body>) -> Option<&'a mut Body> {
+fn body_mut<'a>(body: &'a mut Option<Body>) -> Option<&'a mut Body> {
     body.as_mut()
 }
 
