@@ -1,13 +1,9 @@
 use status::StatusCode;
-use writer::Writer;
 use mime::Mime;
 
-use std::net::TcpStream;
-use std::io::Write;
-
 pub struct Response {
-    head: Parts,
-    body: String, // ライフタイムパラメータをつけるのがめんどくさいので端折りました
+    pub head: Parts,
+    pub body: String, // ライフタイムパラメータをつけるのがめんどくさいので端折りました
 }
 
 pub struct Parts {
@@ -111,17 +107,4 @@ fn head_mut<'a>(head: &'a mut Option<Parts>) -> Option<&'a mut Parts> {
 
 fn body_mut<'a>(body: &'a mut Option<Body>) -> Option<&'a mut Body> {
     body.as_mut()
-}
-
-impl Writer for Response {
-    fn write(&mut self, stream: &mut TcpStream) {
-        let res_str = into_http_response(&self);
-        stream.write(res_str.as_bytes()).unwrap();
-        stream.write(self.body.as_bytes()).unwrap();
-        stream.flush().unwrap();
-    }
-}
-
-fn into_http_response(res: &Response) -> String {
-    format!("HTTP/1.1 {}\r\nServer: SimpleRustHttpServer\r\nContent-Type: {}\r\nContent-Length: {}\r\nConnection: Close\r\n\r\n", &res.head.status, &res.head.content_type, &res.head.content_length)
 }

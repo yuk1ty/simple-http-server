@@ -15,8 +15,8 @@ fn main() {
     let pool = ThreadPool::new(4);
     for socket in listener.incoming() {
         let socket = socket.unwrap();
-        pool.execute(|| {
-            let mut server = Server::new(socket, RequestHandler::new(), RequestParser::new());
+        pool.execute(move || {
+            let mut server = Server::new(RequestHandler::new(&socket), RequestParser::new(&socket));
             server.start();
         });
     }

@@ -1,5 +1,5 @@
-use std::net::TcpStream;
+use response::Response;
 
 pub trait Writer {
-    fn write(&mut self, stream: &mut TcpStream);
+    fn write(&mut self, res: Response);
 }
