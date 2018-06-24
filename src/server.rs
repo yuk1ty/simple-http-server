@@ -1,6 +1,5 @@
 use request_handler::RequestHandler;
 use request_parser::RequestParser;
-use worker::Worker;
 use writer::Writer;
 
 pub struct Server {
@@ -15,10 +14,8 @@ impl Server {
             parser: parser,
         }
     }
-}
 
-impl Worker for Server {
-    fn start(&mut self) {
+    pub fn start(&mut self) {
         let req = self.parser.parse();
         let res = self.handler.handle(&req);
         self.handler.write(res)

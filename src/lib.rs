@@ -8,7 +8,6 @@ pub mod status;
 pub mod server;
 pub mod request_handler;
 pub mod request_parser;
-pub mod worker;
 pub mod writer;
 pub mod mime;
 
